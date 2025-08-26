@@ -1,0 +1,9 @@
+# Cloudflare Worker 的配置文件
+# 定义你的 Worker 名称
+name = "real-address"
+
+# 指定 Worker 的主入口文件
+main = "worker.js"
+
+# 设置兼容性日期，确保 API 行为一致
+compatibility_date = "2025-07-25"
