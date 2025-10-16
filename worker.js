@@ -254,3 +254,4 @@ function renderClientScript() {
     window.onload = renderSavedAddresses;
   `;
 }
+
