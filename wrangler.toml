@@ -1,7 +1,9 @@
 name = "add"
 main = "worker.js"
 compatibility_date = "2025-10-15"
+minify = true
+
 
 [placement]
 mode = "smart"
-minify = true
+
