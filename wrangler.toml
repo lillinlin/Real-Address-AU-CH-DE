@@ -1,9 +1,6 @@
-# Cloudflare Worker 的配置文件
-# 定义你的 Worker 名称
-name = 'add'
-
-# 指定 Worker 的主入口文件
+name = "add"
 main = "worker.js"
+compatibility_date = "2025-10-17"
 
-# 设置兼容性日期，确保 API 行为一致
-compatibility_date = "2025-07-25"
+[placement]
+mode = "smart"
