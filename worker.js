@@ -176,39 +176,4 @@ function renderField(label, value, multi=false) {
       </div>
       <div class="p-2 border rounded bg-gray-50">${value}</div>
     </div>`;
-}tContent,
-          phone: document.getElementById('info-phone').textContent,
-          address: document.getElementById('info-address').textContent
-        };
-        saved.unshift(newEntry);
-        localStorage.setItem('savedAddresses', JSON.stringify(saved));
-        renderSavedAddresses();
-      } catch(e) { alert("Error saving address"); }
-    }
-    function renderSavedAddresses() {
-      const saved = JSON.parse(localStorage.getItem('savedAddresses') || '[]');
-      const container = document.getElementById('savedAddressesContainer');
-      container.innerHTML = saved.length ? '' : '<p class="text-center text-gray-400 mt-10">No saved addresses yet.</p>';
-      saved.forEach((entry, i) => {
-        const card = document.createElement('div');
-        card.className = 'p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow';
-        card.innerHTML = '<div class="flex justify-between items-start">' +
-          '<p class="font-bold text-gray-700">' + entry.note + '</p>' +
-          '<button onclick="deleteAddress(' + i + ')" class="text-gray-400 hover:text-red-500">✕</button></div>' +
-          '<div class="mt-2 text-sm text-gray-600 space-y-1">' +
-          '<p><b>Name:</b> ' + entry.name + '</p>' +
-          '<p><b>Phone:</b> ' + entry.phone + '</p>' +
-          '<p><b>Address:</b> ' + entry.address + '</p></div>';
-        container.appendChild(card);
-      });
-    }
-    function deleteAddress(i) {
-      const saved = JSON.parse(localStorage.getItem('savedAddresses') || '[]');
-      saved.splice(i, 1);
-      localStorage.setItem('savedAddresses', JSON.stringify(saved));
-      renderSavedAddresses();
-    }
-    window.onload = renderSavedAddresses;
-  `;
 }
-
