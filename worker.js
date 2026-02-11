@@ -34,7 +34,11 @@ async function handleRequest(request) {
         });
         const data = await response.json();
 
-        if (data?.address?.house_number && data?.address?.road && (data.address.city || data.address.town || data.address.village)) {
+        if (
+          data?.address?.house_number &&
+          data?.address?.road &&
+          (data.address.city || data.address.town || data.address.village)
+        ) {
           address = formatAddress(data.address, country);
           break;
         }
@@ -95,9 +99,10 @@ async function handleRequest(request) {
 
 function getRandomLocationInCountry(country) {
   const countryCoordinates = {
-    "AU": [{ lat: -37.8136, lng: 144.9631 }],
-    "CH": [{ lat: 47.3769, lng: 8.5417 }],
-    "DE": [{ lat: 52.5200, lng: 13.4050 }],
+    "AU": [{ lat: -37.8136, lng: 144.9631 }],       // Melbourne
+    "CH": [{ lat: 47.3769, lng: 8.5417 }],          // Zurich
+    "DE": [{ lat: 52.5200, lng: 13.4050 }],         // Berlin
+    "AT": [{ lat: 48.2082, lng: 16.3738 }],         // ✅ Vienna
     "KZ": [
       { lat: 51.1605, lng: 71.4704 }, // Astana
       { lat: 43.2383, lng: 76.9458 }, // Almaty
@@ -129,7 +134,8 @@ function getRandomPhoneNumber(country) {
     },
     "AU": () => `+61 4 ${Math.floor(1000+Math.random()*9000)} ${Math.floor(1000+Math.random()*9000)}`,
     "CH": () => `+41 7${Math.floor(Math.random()*9)} ${Math.floor(1000000+Math.random()*9000000)}`,
-    "DE": () => `+49 15${Math.floor(Math.random()*9)} ${Math.floor(1000000+Math.random()*9000000)}`
+    "DE": () => `+49 15${Math.floor(Math.random()*9)} ${Math.floor(1000000+Math.random()*9000000)}`,
+    "AT": () => `+43 6${Math.floor(Math.random()*9)} ${Math.floor(1000000+Math.random()*9000000)}` // ✅ Austria
   };
   return formats[country] ? formats[country]() : formats["AU"]();
 }
@@ -151,6 +157,19 @@ function generateName(country) {
     return { name: `${first} ${last}`, gender: isMale ? "Male" : "Female" };
   }
 
+  // ✅ 奥地利姓名库（常见德语系）
+  if (country === "AT") {
+    const male = ["Lukas", "Jonas", "Felix", "Maximilian", "David", "Paul", "Leon", "Tobias"];
+    const female = ["Anna", "Emma", "Sophie", "Laura", "Hannah", "Lena", "Marie", "Julia"];
+    const last = ["Gruber", "Huber", "Wagner", "Mayer", "Pichler", "Berger", "Steiner", "Hofer"];
+
+    const isMale = Math.random() < 0.5;
+    const first = isMale ? male[Math.floor(Math.random()*male.length)]
+                         : female[Math.floor(Math.random()*female.length)];
+    const surname = last[Math.floor(Math.random()*last.length)];
+    return { name: `${first} ${surname}`, gender: isMale ? "Male" : "Female" };
+  }
+
   // 其他国家默认英文
   return { name: "Alex Smith", gender: "Unknown" };
 }
@@ -162,6 +181,7 @@ function getCountryOptions(c) {
     { name: "Australia", code: "AU" },
     { name: "Switzerland", code: "CH" },
     { name: "Germany", code: "DE" },
+    { name: "Austria", code: "AT" }, // ✅ Added
     { name: "Kazakhstan", code: "KZ" }
   ];
   return list.map(x => `<option value="${x.code}" ${c===x.code?'selected':''}>${x.name}</option>`).join('');
